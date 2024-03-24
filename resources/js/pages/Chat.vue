@@ -26,6 +26,7 @@ const fetchRooms = async () => {
     rooms.value = data;
     if (data.length > 0) {
         selectedRoom.value = rooms.value[0];
+        await scrollToBottom(messagesRef);
     }
 };
 
@@ -226,7 +227,7 @@ setupEcho();
                     }"
                 >
                     <div
-                        class="mb-1.5 flex gap-2 leading-none"
+                        class="mb-1.5 flex gap-2 text-sm leading-none"
                         :class="{
                             'flex-row-reverse':
                                 message.user_id === userStore.user.id,
