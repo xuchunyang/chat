@@ -105,8 +105,6 @@ describe('message', function () {
         $message = $room->messages()->first();
         $user = User::factory()->create();
 
-        ray('message', $message, 'user', $user);
-
         $response = $this
             ->actingAs($user)
             ->deleteJson(route('messages.destroy', $message));
