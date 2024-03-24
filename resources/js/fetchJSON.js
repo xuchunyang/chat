@@ -8,7 +8,7 @@ const getXSRFTokenFromCookie = () =>
 
 /**
  * @param {string} endpoint
- * @param {{ method: ?string, body: ?object }} options
+ * @param {{ method: ?string, body: ?object, headers: ?object, showSuccess: ?boolean, showError: ?boolean }} options
  */
 const fetchJSON = async (endpoint, options = {}) => {
     const {
