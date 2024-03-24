@@ -72,4 +72,26 @@ describe('room', function () {
 
         $response->assertStatus(403);
     });
+
+    it('can be deleted', function () {
+        $room = Room::factory()->for(User::factory())->create();
+        $user = $room->user;
+
+        $response = $this
+            ->actingAs($user)
+            ->deleteJson("/rooms/$room->id");
+
+        $response->assertStatus(200);
+    });
+
+    it('cannot be deleted by another user', function () {
+        $room = Room::factory()->for(User::factory())->create();
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->deleteJson("/rooms/$room->id");
+
+        $response->assertStatus(403);
+    });
 });
