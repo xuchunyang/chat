@@ -10,7 +10,7 @@ describe('room', function () {
 
         $response = $this
             ->actingAs(User::factory()->create())
-            ->getJson('/rooms');
+            ->getJson(route('rooms.index'));
 
         $response
             ->assertStatus(200)
@@ -28,7 +28,7 @@ describe('room', function () {
 
         $response = $this
             ->actingAs($user)
-            ->postJson('/rooms', [
+            ->postJson(route('rooms.store'), [
                 'title' => 'Room 6',
             ]);
 
@@ -47,7 +47,7 @@ describe('room', function () {
 
         $response = $this
             ->actingAs($user)
-            ->putJson("/rooms/$room->id", [
+            ->putJson(route('rooms.update', $room), [
                 'title' => 'Room 1 Updated',
             ]);
 
@@ -66,7 +66,7 @@ describe('room', function () {
 
         $response = $this
             ->actingAs($user)
-            ->putJson("/rooms/$room->id", [
+            ->putJson(route('rooms.update', $room), [
                 'title' => 'Room 1 Updated',
             ]);
 
@@ -79,7 +79,7 @@ describe('room', function () {
 
         $response = $this
             ->actingAs($user)
-            ->deleteJson("/rooms/$room->id");
+            ->deleteJson(route('rooms.destroy', $room));
 
         $response->assertStatus(200);
     });
@@ -90,7 +90,7 @@ describe('room', function () {
 
         $response = $this
             ->actingAs($user)
-            ->deleteJson("/rooms/$room->id");
+            ->deleteJson(route('rooms.destroy', $room));
 
         $response->assertStatus(403);
     });
