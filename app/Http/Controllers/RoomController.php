@@ -19,7 +19,8 @@ class RoomController extends Controller
 
         return RoomResource::collection(Room::with([
             'user',
-            'messages.user',
+            // Limit the number of messages to 999
+            'messages' => fn ($query) => $query->latest()->limit(999)->with('user'),
         ])->get());
     }
 
