@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\RoomCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,6 +18,10 @@ class Room extends Model
         'user_id',
         'title',
         'description',
+    ];
+
+    protected $dispatchesEvents = [
+        'created' => RoomCreated::class,
     ];
 
     public function user(): BelongsTo

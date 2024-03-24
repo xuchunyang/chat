@@ -17,7 +17,10 @@ class RoomController extends Controller
     {
         Gate::authorize('viewAny', Room::class);
 
-        return RoomResource::collection(Room::with('user')->get());
+        return RoomResource::collection(Room::with([
+            'user',
+            'messages.user',
+        ])->get());
     }
 
     /**
@@ -34,6 +37,11 @@ class RoomController extends Controller
     public function store(StoreRoomRequest $request)
     {
         $room = Room::create($request->validated());
+
+        $room->load([
+            'user',
+            'messages.user',
+        ]);
 
         return new RoomResource($room);
     }

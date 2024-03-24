@@ -1,15 +1,15 @@
 import "../css/app.css";
-// import "./bootstrap";
+import "./bootstrap";
 import App from "./App.vue";
 import { createApp } from "vue";
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import { createPinia } from "pinia";
 import { useUserStore } from "./stores/user.js";
 
 const app = createApp(App);
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes: [
         {
             path: "/",
@@ -17,7 +17,7 @@ const router = createRouter({
             children: [
                 {
                     path: "/",
-                    component: () => import("./pages/Home.vue"),
+                    component: () => import("./pages/Chat.vue"),
                 },
                 {
                     path: "/about",
@@ -26,23 +26,33 @@ const router = createRouter({
             ],
         },
         {
-            path: "/login",
+            path: "/auth",
             component: () => import("./layouts/GuestLayout.vue"),
             children: [
                 {
-                    path: "",
+                    path: "/auth/login",
+                    name: "login",
                     component: () => import("./pages/Login.vue"),
+                },
+                {
+                    path: "/auth/register",
+                    name: "register",
+                    component: () => import("./pages/Register.vue"),
                 },
             ],
         },
     ],
 });
 
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
     const userStore = useUserStore();
 
-    if (to.path !== "/login" && !userStore.user) {
-        return "/login";
+    if (to.name === "login" || to.name === "register") {
+        return;
+    }
+
+    if (!userStore.isLogin) {
+        return { name: "login" };
     }
 });
 

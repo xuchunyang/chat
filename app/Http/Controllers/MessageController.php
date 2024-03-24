@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateMessageRequest;
 use App\Http\Resources\MessageResource;
 use App\Models\Message;
 use App\Models\Room;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class MessageController extends Controller
@@ -40,6 +39,8 @@ class MessageController extends Controller
         $request->user()->can('create', [Message::class, $room]);
 
         $message = Message::create($request->validated());
+
+        $message->load('user');
 
         return new MessageResource($message);
     }

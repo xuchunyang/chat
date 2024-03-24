@@ -8,7 +8,7 @@ const getXSRFTokenFromCookie = () =>
 
 /**
  * @param {string} endpoint
- * @param {{ method: ?string, body: ?object, headers: ?object, showSuccess: ?boolean, showError: ?boolean }} options
+ * @param {import("./types.js").fetchJSONOptions} options
  */
 const fetchJSON = async (endpoint, options = {}) => {
     const {
