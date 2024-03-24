@@ -156,7 +156,7 @@ setupEcho();
 
 <template>
     <aside
-        class="fixed flex h-full w-[230px] flex-col border-r bg-gray-900 text-white/80 shadow-md"
+        class="fixed hidden h-full w-[230px] flex-col border-r bg-gray-900 text-white/80 shadow-md sm:flex"
     >
         <div>
             <h1
@@ -209,7 +209,7 @@ setupEcho();
         </form>
     </aside>
 
-    <main class="ml-[230px] flex h-dvh flex-col">
+    <main class="flex h-dvh flex-col sm:ml-[230px]">
         <div
             ref="messagesRef"
             class="flex-grow overflow-auto scroll-smooth px-4 pt-12"
@@ -227,7 +227,7 @@ setupEcho();
                     }"
                 >
                     <div
-                        class="mb-1.5 flex gap-2 text-sm leading-none"
+                        class="mb-1 flex gap-2 text-sm leading-none"
                         :class="{
                             'flex-row-reverse':
                                 message.user_id === userStore.user.id,
@@ -243,7 +243,14 @@ setupEcho();
                             }}
                         </time>
                     </div>
-                    <div class="w-max rounded-lg bg-gray-200 px-3 py-1.5">
+                    <div
+                        class="w-max max-w-full rounded-lg px-3 py-1.5"
+                        :class="
+                            message.user_id === userStore.user.id
+                                ? 'bg-blue-500 text-white'
+                                : 'bg-gray-200 text-black'
+                        "
+                    >
                         {{ message.content }}
                     </div>
                 </div>
