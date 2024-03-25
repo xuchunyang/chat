@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class AskKimi implements ShouldQueue
 {
@@ -20,15 +21,20 @@ class AskKimi implements ShouldQueue
      */
     public function __construct(
         public Message $message
-    )
-    {
+    ) {
         $key = config('services.kimi.api_key');
-        if (!$key) {
+        if (! $key) {
             logger('Kimi API key is missing');
-            return;
-        };
 
-        $kimiUser = User::where('name', 'kimi')->firstOrFail();
+            return;
+        }
+
+        // Create kimi if not exists
+        $kimiUser = User::where('name', 'kimi')->firstOrCreate([
+            'name' => 'kimi',
+            'email' => Str::uuid().'@example.com',
+            'password' => Str::uuid(),
+        ]);
 
         logger('Asking Kimi', ['message' => $message]);
 
@@ -42,7 +48,7 @@ class AskKimi implements ShouldQueue
         ];
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer ' . $key,
+            'Authorization' => 'Bearer '.$key,
         ])->post('https://api.moonshot.cn/v1/chat/completions', $body);
 
         if ($response->failed()) {
@@ -50,6 +56,7 @@ class AskKimi implements ShouldQueue
                 'requestBody' => $body,
                 'response' => $response->json(),
             ]);
+
             return;
         }
         /*

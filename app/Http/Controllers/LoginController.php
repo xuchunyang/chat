@@ -47,7 +47,7 @@ class LoginController extends Controller
     public function register(Request $request)
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:users'],
+            'name' => ['required', 'string', 'max:255', 'unique:users', 'not_in:kimi'],
             'email' => ['nullable', 'email', 'unique:users'],
             'password' => ['required', 'string', 'min:4'],
         ]);
