@@ -17,13 +17,15 @@ class RoomSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create 5 rooms with a user
-        Room::factory()
-            ->count(5)
-            ->has(Message::factory()->count(10)->for(User::factory()))
-            ->for(User::factory()->state([
-                'password' => 'secret_pass_123',
-            ]))
-            ->create();
+        $this->withoutModelEvents(function () {
+            // Create 5 rooms with a user
+            Room::factory()
+                ->count(5)
+                ->has(Message::factory()->count(10)->for(User::factory()))
+                ->for(User::factory()->state([
+                    'password' => 'secret_pass_123',
+                ]))
+                ->create();
+        });
     }
 }
