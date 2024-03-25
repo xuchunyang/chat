@@ -23,7 +23,7 @@ class RoomController extends Controller
             // NOTE 获得最近的 999 个消息，注意顺序反了，Laravel 中没法儿简单地实现这个需求
             // https://stackoverflow.com/a/65947845/2999892
             'messages' => function (Builder $query) {
-                $query->latest()->limit(10)->with('user');
+                $query->latest()->limit(999)->with('user');
             },
             'messages.user',
         ])->get());
