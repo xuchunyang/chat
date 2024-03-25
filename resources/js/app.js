@@ -1,11 +1,12 @@
 import "../css/app.css";
-import 'floating-vue/dist/style.css'
+import "floating-vue/dist/style.css";
 import "./bootstrap";
 import App from "./App.vue";
 import { createApp } from "vue";
 import { createRouter, createWebHashHistory } from "vue-router";
 import { createPinia } from "pinia";
 import { useUserStore } from "./stores/user.js";
+import { autoAnimatePlugin } from "@formkit/auto-animate/vue";
 
 const app = createApp(App);
 
@@ -60,5 +61,7 @@ router.beforeEach((to) => {
 app.use(router);
 
 app.use(createPinia());
+
+app.use(autoAnimatePlugin);
 
 app.mount("#app");

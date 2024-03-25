@@ -1,3 +1,4 @@
+<!--suppress VueUnrecognizedDirective -->
 <script setup>
 import { nextTick, ref } from "vue";
 import fetchJSON from "../fetchJSON.js";
@@ -209,7 +210,7 @@ setupEcho();
             </p>
         </div>
         <div ref="roomsRef" class="flex-grow overflow-auto">
-            <div v-if="rooms.length" class="space-y-2">
+            <div v-if="rooms.length" class="space-y-2" v-auto-animate>
                 <button
                     v-for="room in rooms"
                     :key="room.id"
@@ -254,6 +255,7 @@ setupEcho();
             <div
                 v-if="selectedRoom && selectedRoom.messages.length"
                 class="space-y-3"
+                v-auto-animate
             >
                 <div
                     v-for="message in selectedRoom.messages"
