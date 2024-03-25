@@ -31,6 +31,7 @@ export interface Room {
     user_id: number;
     user: User;
     messages: Message[];
+    messages_count: number;
     title: string;
     description: string;
     created_at: string;

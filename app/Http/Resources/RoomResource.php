@@ -25,6 +25,7 @@ class RoomResource extends JsonResource
             'updated_at' => $this->updated_at,
             'user' => new UserResource($this->whenLoaded('user')),
             'messages' => MessageResource::collection($this->whenLoaded('messages')),
+            'messages_count' => $this->messages_count,
         ];
     }
 }

@@ -46,6 +46,9 @@ const fetchRooms = async () => {
         room.messages.reverse();
     });
 
+    // Sort rooms by messages_count, so the room with most messages is on top
+    data.sort((a, b) => b.messages_count - a.messages_count);
+
     rooms.value = data;
 
     if (data.length > 0) {

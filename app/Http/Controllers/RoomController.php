@@ -26,7 +26,7 @@ class RoomController extends Controller
                 $query->latest()->limit(999)->with('user');
             },
             'messages.user',
-        ])->get());
+        ])->withCount('messages')->get());
     }
 
     /**
