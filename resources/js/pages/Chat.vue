@@ -17,7 +17,21 @@ const messagesRef = ref(null);
 /** @type {import("vue").Ref<HTMLElement | null>}}>} */
 const roomsRef = ref(null);
 
+// Room ids with unread messages
+/** @type {import("vue").Ref<number[]>} */
+const unreadRooms = ref([]);
+
 const newMessageContent = ref("");
+
+const markAsRead = (room) => {
+    unreadRooms.value = unreadRooms.value.filter((id) => id !== room.id);
+};
+
+const markAsUnread = (room) => {
+    if (!unreadRooms.value.includes(room.id)) {
+        unreadRooms.value.push(room.id);
+    }
+};
 
 const fetchRooms = async () => {
     const { ok, data } = await fetchJSON("/rooms");
@@ -42,6 +56,7 @@ const fetchRooms = async () => {
 const selectRoom = (room) => {
     selectedRoom.value = room;
     scrollToBottom(messagesRef);
+    markAsRead(room);
 };
 
 const addRoom = async (event) => {
@@ -144,6 +159,8 @@ const setupEcho = () => {
                 // if the room is selected, scroll to the bottom
                 if (selectedRoom.value === room) {
                     scrollToBottom(messagesRef);
+                } else {
+                    markAsUnread(room);
                 }
             },
         )
@@ -205,7 +222,12 @@ setupEcho();
                 >
                     {{ room.title }}
                     <span
-                        class="rounded-full bg-gray-800 p-1 text-xs tabular-nums text-white/50"
+                        class="min-w-5 rounded-full p-1 text-center text-xs tabular-nums leading-none text-white/50"
+                        :class="
+                            unreadRooms.includes(room.id)
+                                ? 'bg-rose-800'
+                                : 'bg-gray-800'
+                        "
                         >{{ room.messages.length }}</span
                     >
                 </button>
