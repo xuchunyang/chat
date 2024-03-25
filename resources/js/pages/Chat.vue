@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, onMounted, ref } from "vue";
+import { nextTick, ref } from "vue";
 import fetchJSON from "../fetchJSON.js";
 import { intlFormatDistance } from "date-fns";
 import { useUserStore } from "../stores/user.js";
@@ -23,7 +23,13 @@ const fetchRooms = async () => {
         return;
     }
 
+    // Reverse the order of messages, Laravel 返回的是倒序的
+    data.forEach((room) => {
+        room.messages.reverse();
+    });
+
     rooms.value = data;
+
     if (data.length > 0) {
         selectedRoom.value = rooms.value[0];
         await scrollToBottom(messagesRef);

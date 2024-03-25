@@ -6,6 +6,7 @@ use App\Http\Requests\StoreRoomRequest;
 use App\Http\Requests\UpdateRoomRequest;
 use App\Http\Resources\RoomResource;
 use App\Models\Room;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Gate;
 
 class RoomController extends Controller
@@ -19,8 +20,12 @@ class RoomController extends Controller
 
         return RoomResource::collection(Room::with([
             'user',
-            // Limit the number of messages to 999
-            'messages' => fn ($query) => $query->latest()->limit(999)->with('user'),
+            // NOTE 获得最近的 999 个消息，注意顺序反了，Laravel 中没法儿简单地实现这个需求
+            // https://stackoverflow.com/a/65947845/2999892
+            'messages' => function (Builder $query) {
+                $query->latest()->limit(999)->with('user');
+            },
+            'messages.user',
         ])->get());
     }
 
