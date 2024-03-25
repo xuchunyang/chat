@@ -134,7 +134,7 @@ const setupEcho = () => {
                 room.messages.push(message);
                 // if the room is selected, scroll to the bottom
                 if (selectedRoom.value === room) {
-                    scrollToBottom();
+                    scrollToBottom(messagesRef);
                 }
             },
         )
