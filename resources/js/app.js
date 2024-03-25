@@ -1,4 +1,5 @@
 import "../css/app.css";
+import 'floating-vue/dist/style.css'
 import "./bootstrap";
 import App from "./App.vue";
 import { createApp } from "vue";

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
 use App\Http\Resources\MessageResource;
+use App\Jobs\AskKimi;
 use App\Models\Message;
 use App\Models\Room;
 use Illuminate\Support\Facades\Gate;
@@ -41,6 +42,11 @@ class MessageController extends Controller
         $message = Message::create($request->validated());
 
         $message->load('user');
+
+        // if the message contains @kimi, ask Kimi
+        if (str_contains($message->content, '@kimi')) {
+            AskKimi::dispatch($message);
+        }
 
         return new MessageResource($message);
     }

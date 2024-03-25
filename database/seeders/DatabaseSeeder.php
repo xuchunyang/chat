@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,6 +16,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
+
+        // create kimi user
+        User::factory()->create([
+            'name' => 'kimi',
+            'email' => Str::uuid() . '@example.com',
+            'password' => Str::uuid(),
+        ]);
 
         User::factory()->create([
             'name' => 'test-user',

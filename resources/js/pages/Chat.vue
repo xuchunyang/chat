@@ -4,6 +4,7 @@ import fetchJSON from "../fetchJSON.js";
 import { intlFormatDistance } from "date-fns";
 import { useUserStore } from "../stores/user.js";
 import Echo from "laravel-echo";
+import { Mentionable } from "vue-mention";
 
 const userStore = useUserStore();
 /** @type {import("vue").Ref<Room[]>} */
@@ -15,6 +16,8 @@ const messagesRef = ref(null);
 
 /** @type {import("vue").Ref<HTMLElement | null>}}>} */
 const roomsRef = ref(null);
+
+const newMessageContent = ref("");
 
 const fetchRooms = async () => {
     const { ok, data } = await fetchJSON("/rooms");
@@ -74,8 +77,9 @@ const scrollToBottom = async (elRef) => {
     });
 };
 
-const addMessage = async (event) => {
-    const content = event.target.content.value;
+const sendMessage = async () => {
+    const content = newMessageContent.value;
+    newMessageContent.value = "";
     if (!content) {
         alert("请输入消息内容");
         return;
@@ -93,8 +97,13 @@ const addMessage = async (event) => {
         return;
     }
 
+    // Avoid race condition with websocket
+    // if the message is already in the room, ignore it
+    if (selectedRoom.value.messages.some((m) => m.id === data.id)) {
+        return;
+    }
+
     selectedRoom.value.messages.push(data);
-    event.target.reset();
     await scrollToBottom(messagesRef);
 };
 
@@ -113,7 +122,7 @@ const setupEcho = () => {
         .listen(
             "MessageCreated",
             (
-                /** @type {{ room: import('../types.js').Message }} */
+                /** @type {{ message: import('../types.js').Message }} */
                 event,
             ) => {
                 const message = event.message;
@@ -266,14 +275,26 @@ setupEcho();
             </div>
         </div>
 
-        <form class="px-4 py-4" @submit.prevent="addMessage">
-            <input
-                name="content"
-                type="text"
-                class="w-full rounded-md border border-gray-300 px-3 py-3 focus:border-blue-500 focus:outline-none"
-                placeholder="输入消息..."
-                required
-            />
+        <form class="px-4 py-4" @submit.prevent="sendMessage">
+            <Mentionable
+                :keys="['@']"
+                :items="[
+                    {
+                        value: 'kimi',
+                        label: 'Kimi',
+                    },
+                ]"
+                insert-space
+                offset="6"
+            >
+                <input
+                    v-model="newMessageContent"
+                    type="text"
+                    class="w-full rounded-md border border-gray-300 px-3 py-3 focus:border-blue-500 focus:outline-none"
+                    placeholder="输入消息, @kimi 试试..."
+                    required
+                />
+            </Mentionable>
         </form>
     </main>
 </template>

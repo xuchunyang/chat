@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* for vue-mention */
+.mention-item {
+    padding: 6px 16px;
+    border-radius: 4px;
+}
+
+.mention-selected {
+    background-color: rgb(18, 97, 222);
+    color: white;
+}

@@ -31,4 +31,8 @@ return [
         ],
     ],
 
+    'kimi' => [
+        'api_key' => env('MOONSHOT_API_KEY'),
+    ],
+
 ];
