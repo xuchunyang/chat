@@ -8,8 +8,8 @@ const router = useRouter();
 const userStore = useUserStore();
 
 const form = ref({
-    name: "test-user",
-    password: "password",
+    name: "",
+    password: "",
 });
 const errors = ref({
     // name: ["a", "b", "c"],

@@ -8,12 +8,13 @@ const router = useRouter();
 const userStore = useUserStore();
 
 const form = ref({
-    name: "John Doe",
-    password: "top-secret",
+    name: "",
+    password: "",
 });
 const errors = ref({
     // name: ["The name field is required."],
 });
+const passwordInputType = ref("password");
 
 const register = async () => {
     const { ok, errors: registerErrors } = await userStore.register(
@@ -27,6 +28,47 @@ const register = async () => {
     }
 
     await router.push("/");
+};
+
+// Function to generate a random variable name
+const generateVariableName = () => {
+    const adjectives = [
+        "sparkly",
+        "zesty",
+        "bubbly",
+        "whimsical",
+        "funky",
+        "snazzy",
+        "glorious",
+        "groovy",
+        "mystical",
+        "stellar",
+    ];
+    const nouns = [
+        "unicorn",
+        "rainbow",
+        "bubble",
+        "magic",
+        "adventure",
+        "dream",
+        "wizard",
+        "taco",
+        "moon",
+        "jazz",
+    ];
+
+    // Generate a random index for both adjectives and nouns arrays
+    const randomAdjectiveIndex = Math.floor(Math.random() * adjectives.length);
+    const randomNounIndex = Math.floor(Math.random() * nouns.length);
+
+    // Concatenate the selected adjective and noun with a hyphen and return
+    return adjectives[randomAdjectiveIndex] + "-" + nouns[randomNounIndex];
+};
+
+const fillRandomUser = () => {
+    form.value.name = generateVariableName();
+    form.value.password = generateVariableName();
+    passwordInputType.value = "text";
 };
 </script>
 
@@ -55,7 +97,7 @@ const register = async () => {
                 <input
                     class="w-full rounded"
                     id="password"
-                    type="password"
+                    :type="passwordInputType"
                     placeholder="密码"
                     v-model="form.password"
                     required
@@ -68,10 +110,17 @@ const register = async () => {
                     注册
                 </button>
             </div>
-            <div>
+            <div class="flex justify-between">
                 <router-link to="/auth/login" class="text-blue-500"
                     >登陆
                 </router-link>
+                <button
+                    class="text-xs text-gray-500 hover:text-blue-500"
+                    type="button"
+                    @click="fillRandomUser"
+                >
+                    随机用户名和密码
+                </button>
             </div>
         </form>
     </div>
