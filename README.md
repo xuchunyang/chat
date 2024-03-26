@@ -1,4 +1,4 @@
-# 用 Laravel Reverb 和 Vue SPA 开发聊天室
+# 用 Laravel Reverb 和 Vue SPA 开发的聊天室
 
 ![](./demo.gif)
 
@@ -14,18 +14,15 @@
 
 配置 `.env` 文件时，确保广播连接设置为 `reverb`，如下：
 
-> [!TIP]
-> `BROADCAST_CONNECTION` 默认是 log 哦，这里要改成 reverb，别像我部署的时候忘了改，浪费了一个小时
-
 ```dotenv
 BROADCAST_CONNECTION=reverb
 ```
 
-添加 Reverb 的配置，新项目安装 Reverb 时会自动生成并写入 `.env`，但是部署或者 git clone 时，需要手动添加，如下：
+> [!WARNING]
+> `BROADCAST_CONNECTION` 默认是 log 哦，这里要改成 reverb，别像我部署的时候忘了改，浪费了一个小时
 
-> [!TIP]
-> - `REVERB_APP_ID` `REVERB_APP_KEY` `REVERB_APP_SECRET` 具体是什么不重要，随便填写即可；
-> - `REVERB_HOST` `REVERB_PORT` `REVERB_SCHEME` 只对 Vite 有效，如果你不喜欢默认的配置，从命令行才能修改。
+
+添加 Reverb 的配置，新项目安装 Reverb 时会自动生成并写入 `.env`，但是部署或者 git clone 时，需要手动添加，如下：
 
 ```dotenv
 REVERB_APP_ID=321494
@@ -40,6 +37,11 @@ VITE_REVERB_HOST="${REVERB_HOST}"
 VITE_REVERB_PORT="${REVERB_PORT}"
 VITE_REVERB_SCHEME="${REVERB_SCHEME}"
 ```
+
+> [!TIP]
+> - `REVERB_APP_ID` `REVERB_APP_KEY` `REVERB_APP_SECRET` 具体是什么不重要，随便填写即可；
+> - `REVERB_HOST` `REVERB_PORT` `REVERB_SCHEME` 只对 Vite 有效，如果你不喜欢默认的配置，从命令行才能修改。
+
 
 如果需要 @kimi 支持，还需要添加 Moonshot 的 API：
 
