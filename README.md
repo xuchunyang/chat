@@ -6,6 +6,15 @@
 
 这是一个使用 Laravel Reverb 和 Vue SPA 开发的聊天室，支持多房间、多用户、实时聊天等功能。
 
+## 技术栈
+
+> [!NOTICE]
+> 前后端公用一个仓库，通过 Laravel Sanctum 来处理 SPA 登陆认证。
+
+后端是 Laravel，采用 Laravel Reverb 作为 WebSocket 服务器，负责从 Event 事件中推送消息到前端。
+
+前端是 Vue SPA，使用了 Vue Router 作为路由管理，Pinia 共享全局状态，Tailwind CSS 添加样式。
+
 ## 本地开发
 
 常规的 Laravel 项目开发流程，不再赘述。
