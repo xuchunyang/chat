@@ -8,7 +8,7 @@
 
 ## 技术栈
 
-> [!NOTICE]
+> [!NOTE]
 > 前后端公用一个仓库，通过 Laravel Sanctum 来处理 SPA 登陆认证。
 
 后端是 Laravel，采用 Laravel Reverb 作为 WebSocket 服务器，负责从 Event 事件中推送消息到前端。
