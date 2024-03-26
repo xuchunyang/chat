@@ -30,7 +30,7 @@ class AskKimi implements ShouldQueue
         }
 
         // Create kimi if not exists
-        $kimiUser = User::where('name', 'kimi')->firstOrCreate([
+        $kimiUser = User::where('name', 'kimi')->first() ?: User::create([
             'name' => 'kimi',
             'email' => Str::uuid().'@example.com',
             'password' => Str::uuid(),
